@@ -4,10 +4,14 @@
  */
 const MAX_CHARS = 400;
 const TIMEOUT_MS = 6000;
+/** 400 characters is at most a few KB even fully escaped; anything bigger isn't a real request. */
+const MAX_BODY_BYTES = 16 * 1024;
 /** Lowest-latency TTS model per elevenlabs.io/docs/models (checked 2026-10-03). Override with ELEVENLABS_MODEL. */
 const DEFAULT_MODEL = "eleven_flash_v2_5";
 
 export async function POST(request: Request) {
+  if (Number(request.headers.get("content-length") ?? 0) > MAX_BODY_BYTES)
+    return Response.json({ error: "request too large" }, { status: 413 });
   let text: unknown;
   try {
     ({ text } = (await request.json()) as { text?: unknown });

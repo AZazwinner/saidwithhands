@@ -144,6 +144,24 @@ export function validateRequest(x: unknown): string | null {
   return null;
 }
 
+/**
+ * Rebuild a validated request from the known fields only, so nothing else a caller attaches (extra keys on
+ * a position or candidate) reaches the Gemini prompt. Call after validateRequest().
+ */
+export function sanitizeRequest(req: BestGuessRequest): BestGuessRequest {
+  return {
+    ...(req.question ? { question: true } : {}),
+    positions: req.positions.map((p) => ({
+      pos: p.pos,
+      kind: p.kind,
+      candidates: p.candidates.map((c) => ({ v: c.v, p: c.p })),
+    })),
+  };
+}
+
+/** Largest request body the route reads. A full 120-position request is well under this. */
+export const MAX_BODY_BYTES = 128 * 1024;
+
 /** The recognizer's top-1 text, used when Gemini is unavailable. */
 export function rawSentence(positions: readonly Position[]): string {
   let out = "";

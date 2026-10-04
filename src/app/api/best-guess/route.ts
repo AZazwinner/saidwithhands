@@ -1,5 +1,13 @@
 import { GoogleGenAI, ThinkingLevel } from "@google/genai";
-import { bestGuess, publicReason, validateRequest, type BestGuessRequest, type Generate } from "@/lib/bestGuess";
+import {
+  bestGuess,
+  MAX_BODY_BYTES,
+  publicReason,
+  sanitizeRequest,
+  validateRequest,
+  type BestGuessRequest,
+  type Generate,
+} from "@/lib/bestGuess";
 
 /**
  * POST /api/best-guess  { positions, question? } -> BestGuessResult
@@ -7,15 +15,19 @@ import { bestGuess, publicReason, validateRequest, type BestGuessRequest, type G
  * Gemini guess or the raw-signs fallback, so the client can always speak something.
  */
 export async function POST(request: Request) {
+  const declared = Number(request.headers.get("content-length") ?? 0);
+  if (declared > MAX_BODY_BYTES) return Response.json({ error: "request too large" }, { status: 413 });
   let body: unknown;
   try {
-    body = await request.json();
+    const raw = await request.text();
+    if (raw.length > MAX_BODY_BYTES) return Response.json({ error: "request too large" }, { status: 413 });
+    body = JSON.parse(raw);
   } catch {
     return Response.json({ error: "invalid JSON" }, { status: 400 });
   }
   const invalid = validateRequest(body);
   if (invalid) return Response.json({ error: invalid }, { status: 400 });
-  const req = body as BestGuessRequest;
+  const req = sanitizeRequest(body as BestGuessRequest);
 
   const apiKey = process.env.GEMINI_API_KEY;
   const model = process.env.GEMINI_MODEL;
