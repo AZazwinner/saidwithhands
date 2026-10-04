@@ -1,0 +1,345 @@
+@import "tailwindcss";
+
+/*
+ * Said With Hands design tokens. The Tailwind theme is reset to these values only,
+ * so off-system colors, sizes, weights, radii and shadows don't exist as utilities.
+ */
+
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --surface-2: #f5f5f4;
+  --border: #e7e5e4;
+  --text: #1c1917;
+  --text-muted: #78716c;
+  --accent: #0f766e;
+  --accent-fg: #ffffff;
+  --warning: #b45309;
+  --danger: #b91c1c;
+  /* hero background field (HeroCaretField reads these; opaque hex only) */
+  --caret-ink: #ebe8e5;
+  --caret-fill: #ebe8e5;
+  --caret-fill-ink: #fafaf9;
+  --caret-trail-ink: #4f9f96;
+  --caret-trail-fill: #a3cdc8;
+  --caret-trail-fill-ink: #0f3d39;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0a09;
+    --surface: #1c1917;
+    --surface-2: #292524;
+    --border: #292524;
+    --text: #fafaf9;
+    --text-muted: #a8a29e;
+    --accent: #2dd4bf;
+    --accent-fg: #042f2e;
+    --warning: #f59e0b;
+    --danger: #f87171;
+    --caret-ink: #2a2624;
+    --caret-fill: #2a2624;
+    --caret-fill-ink: #0c0a09;
+    --caret-trail-ink: #2f8f86;
+    --caret-trail-fill: #1f5c56;
+    --caret-trail-fill-ink: #0a2a27;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c0a09;
+  --surface: #1c1917;
+  --surface-2: #292524;
+  --border: #292524;
+  --text: #fafaf9;
+  --text-muted: #a8a29e;
+  --accent: #2dd4bf;
+  --accent-fg: #042f2e;
+  --warning: #f59e0b;
+  --danger: #f87171;
+  --caret-ink: #2a2624;
+  --caret-fill: #2a2624;
+  --caret-fill-ink: #0c0a09;
+  --caret-trail-ink: #2f8f86;
+  --caret-trail-fill: #1f5c56;
+  --caret-trail-fill-ink: #0a2a27;
+  color-scheme: dark;
+}
+
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --font-weight-*: initial;
+  --tracking-*: initial;
+  --leading-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --blur-*: initial;
+
+  --font-sans: var(--font-didot), Didot, "Bodoni 72", Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+
+  /* 12 / 14 / 16 / 20 / 24 / 32 */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 2.5rem;
+  /* hero headline only (the one size outside the 12–32 scale) */
+  --text-display: clamp(2.5rem, 6.5vw, 4.5rem);
+  --text-display--line-height: 1.05;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --tracking-tight: -0.02em;
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+
+  --radius-control: 6px;
+  --radius-card: 10px;
+
+  --shadow-popover: 0 8px 24px -12px rgb(12 10 9 / 0.18);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+}
+
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-control px-4 text-sm font-medium whitespace-nowrap transition-[background-color,border-color,opacity,transform] duration-150 ease-out select-none active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40 disabled:active:translate-y-0;
+  }
+  .btn-primary {
+    @apply bg-accent text-accent-fg hover:opacity-90 disabled:bg-surface-2 disabled:text-muted disabled:opacity-100;
+  }
+  .btn-secondary {
+    @apply border border-border bg-surface text-text hover:bg-surface-2;
+  }
+  .btn-ghost {
+    @apply text-muted hover:bg-surface-2 hover:text-text;
+  }
+  .btn-danger {
+    @apply text-danger hover:bg-surface-2 disabled:text-muted disabled:opacity-100;
+  }
+  .btn-icon {
+    @apply w-9 px-0;
+  }
+  .btn-lg {
+    @apply h-11 text-base;
+  }
+
+  .card {
+    @apply rounded-card border border-border bg-surface;
+  }
+
+  .chip {
+    @apply inline-flex h-6 items-center gap-1 rounded-full border border-border bg-surface px-2 text-xs font-medium tabular-nums;
+  }
+
+  .field {
+    @apply h-9 rounded-control border border-border bg-surface px-3 text-sm text-text placeholder:text-muted focus:border-accent focus:outline-none disabled:opacity-60;
+  }
+
+  .label {
+    @apply text-xs font-medium text-muted;
+  }
+
+  .link {
+    @apply cursor-pointer font-medium text-accent underline decoration-1 underline-offset-4 hover:opacity-80;
+  }
+
+  .page-title {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+}
+
+/* Grain over the hero, as on the portfolio: a faint static noise tile. */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Frosted strip behind the floating nav, ported from the portfolio: four stacked backdrop blurs, each
+   fading out over a different span, so the blur is strongest at the top and thins to nothing by the
+   bottom edge. A single masked layer could only fade opacity, not blur amount. */
+.nav-blur {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 9rem;
+  z-index: 40;
+  pointer-events: none;
+}
+.nav-blur-layer {
+  position: absolute;
+  inset: 0;
+}
+.nav-blur-layer:nth-child(1) {
+  backdrop-filter: blur(20px);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 30%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 30%);
+}
+.nav-blur-layer:nth-child(2) {
+  backdrop-filter: blur(12px);
+  mask-image: linear-gradient(to bottom, #000 15%, transparent 55%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 15%, transparent 55%);
+}
+.nav-blur-layer:nth-child(3) {
+  backdrop-filter: blur(6px);
+  mask-image: linear-gradient(to bottom, #000 35%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent 75%);
+}
+.nav-blur-layer:nth-child(4) {
+  backdrop-filter: blur(2px);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+/* Feature strip (as on Cascadex): a slow, hover-pausable ticker. Transform only. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Motion: 150–200 ms ease-out, opacity and transform only. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-in {
+  animation: fade-in 180ms ease-out both;
+}
+
+@keyframes sheet-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes sheet-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.sheet-in {
+  animation: sheet-in-up 200ms ease-out both;
+}
+@media (min-width: 768px) {
+  .sheet-in {
+    animation-name: sheet-in-right;
+  }
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: caret 1.1s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-dup {
+    display: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

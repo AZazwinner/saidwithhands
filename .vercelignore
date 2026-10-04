@@ -1,0 +1,6 @@
+.env*
+!.env.example
+.playwright-mcp
+public/_debug
+.next
+node_modules
