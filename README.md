@@ -98,14 +98,3 @@ same variables in the project settings.
 | `public/models/` | Hand-tracking model and letter model weights |
 | `public/signs/starter.json` | Built-in signs (Space, Delete, J, Z) |
 | `scripts/` | Simulations, probes and data tools |
-
-## Limitations
-
-- One hand, seen by a webcam. Facial expressions, body position and where a sign is made aren't captured, so a
-  yes/no question with no question word comes out as a statement.
-- Letter accuracy for people the models haven't seen is not yet measured; `/evaluate` exists for that.
-- Built-in signs were recorded by one person and may need re-teaching for someone else.
-- Taught signs are personal shortcuts, not a dictionary of ASL. Two signs that differ only slightly (for example
-  the same movement in a slightly different direction) can be confused.
-- The best guess uses Gemini's free tier (15 requests a minute).
-- The reused letter model's repository doesn't say which images it was trained on, so their license is unverified.
