@@ -7,9 +7,8 @@ export default function Footer() {
         <div className="flex max-w-[56ch] flex-col gap-2">
           <p className="text-base font-semibold tracking-tight">Said With Hands</p>
           <p className="text-sm text-muted">
-            A communication aid that recognizes fingerspelling and signs you teach it. It is not an interpreter
-            and doesn&apos;t translate ASL. Video is processed on your device; only text goes to Google Gemini
-            and ElevenLabs.
+            A communication aid that recognizes fingerspelling and signs you teach it. Video is processed on your
+            device; only text goes to Google Gemini and ElevenLabs.
           </p>
         </div>
         <nav aria-label="Footer" className="flex gap-6 text-sm text-muted">

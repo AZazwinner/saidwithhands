@@ -33,8 +33,7 @@ export default function Hero() {
             </h1>
             <p className="max-w-[56ch] text-base text-pretty text-muted">
               Your webcam recognizes ASL fingerspelling and the signs you teach it, builds a transcript, and
-              speaks it. The other person&apos;s reply appears as captions. It doesn&apos;t translate ASL:
-              grammar, facial expressions and continuous signing are out of scope.
+              speaks it. The other person&apos;s reply appears as captions.
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link href="#communicate" className="btn btn-primary btn-lg">
